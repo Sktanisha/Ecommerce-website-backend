@@ -1,0 +1,25 @@
+{
+  "name": "ecommerce-website-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sktanisha/Ecommerce-website-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Sktanisha/Ecommerce-website-backend/issues"
+  },
+  "homepage": "https://github.com/Sktanisha/Ecommerce-website-backend#readme",
+  "dependencies": {
+    "express": "^5.2.1",
+    "nodemon": "^3.1.14"
+  }
+}
