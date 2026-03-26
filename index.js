@@ -4,6 +4,7 @@ const { dbConfig } = require("./config/db");
 
 const app = express();
 const port = process.env.PORT || 5000;
+app.use(express.json());
 //db connect
 dbConfig();
 //http://localhost:8080/

@@ -1,5 +1,6 @@
 exports.registrationController = (req, res)=>{
-    res.send("registration");
+    let{name, email, password, phone} = req.body
+    res.send(req.body);
 }
 
 exports.loginController = (req, res)=>{
