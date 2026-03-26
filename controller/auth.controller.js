@@ -1,7 +1,11 @@
-exports.registrationController = (req, res)=>{
-    let{name, email, password, phone} = req.body
+const { asyncHandler } = require("../utils/asyncHandler");
+
+exports.registrationController = asyncHandler( (req, res)=>{
+
     res.send(req.body);
-}
+   // let{name, email, password, phone} = req.body
+   // res.send(req.body);
+});
 
 exports.loginController = (req, res)=>{
     res.send("login done ");
