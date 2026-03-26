@@ -4,7 +4,7 @@ exports.registrationController = asyncHandler( (req, res)=>{
 
     res.send(req.body);
    // let{name, email, password, phone} = req.body
-   // res.send(req.body);
+
 });
 
 exports.loginController = (req, res)=>{
