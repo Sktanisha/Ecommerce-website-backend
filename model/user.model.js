@@ -17,7 +17,9 @@ const userSchema = new Schema({
         type: String,
         required: [true, "password is required"],
         select: false,
-        minLength: [6, "Password must be 6 Characters"]
+        minLength: [6, "Password must be at least 6 Characters"],
+        maxLength: [20, "Password must be at most 20 Characters"],
+        
     },
     phone:{
         type: String,
@@ -35,10 +37,17 @@ const userSchema = new Schema({
     },
     address:{
         type:String,
+        trim: true,
 
-    }
+    },
+    role:{
+        type:String,
+        default: "user",
+        enum:["user","admin"],
+        trim: true,
+    },
 
-})
+});
 
 
 
