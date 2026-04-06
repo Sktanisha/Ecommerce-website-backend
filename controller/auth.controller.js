@@ -13,7 +13,13 @@ exports.registrationController = asyncHandler(async(req, res)=>{
     phone,
    });
    await user.save();
+
+   return res
+   .status(201)
+   .json({success: true, message: " user created successfully", data: user});
 });
+
+
 
 exports.loginController = (req, res)=>{
     res.send("login done ");
