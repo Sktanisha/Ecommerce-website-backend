@@ -1,4 +1,5 @@
 const userModel = require("../model/user.model");
+const { apiResponse } = require("../utils/apiResponse");
 const { asyncHandler } = require("../utils/asyncHandler");
 
 exports.registrationController = asyncHandler(async(req, res)=>{
@@ -14,9 +15,7 @@ exports.registrationController = asyncHandler(async(req, res)=>{
    });
    await user.save();
 
-   return res
-   .status(201)
-   .json({success: true, message: " user created successfully", data: user});
+  apiResponse(res, 201, "user created successfully!", user);
 });
 
 
