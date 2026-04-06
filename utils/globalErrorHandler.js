@@ -7,7 +7,11 @@ exports.globalErrorHandler = (err, req, res, next )=>{
             errors[key] = err.errors[key].message;
         });
 
-        apiResponse(res, 400, errors);
+        Object.values(errors).forEach((value)=>{
+            apiResponse(res, 400, value);
+        });
+
+        
     } else{
         apiResponse(res, 400, err.message || "Something went wrong");
     }
@@ -15,4 +19,3 @@ exports.globalErrorHandler = (err, req, res, next )=>{
 }
 
 
-//52:39 
