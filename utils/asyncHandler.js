@@ -1,7 +1,7 @@
 exports.asyncHandler = (fn)=>{
-    return (req, res, next)=>{
+    return async (req, res, next)=>{
         try{
-            fn(req, res, next);
+           await fn(req, res, next);
         }catch(error){
             next(error);
         }
