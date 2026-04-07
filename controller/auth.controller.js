@@ -25,6 +25,7 @@ exports.registrationController = asyncHandler(async(req, res)=>{
     password: hashpassword,
     phone,
     otp,
+    otpexpire: Date.now() + 5 * 60 * 1000,
     });
     await user.save();
     sendEmail(email,otp);
@@ -33,8 +34,41 @@ exports.registrationController = asyncHandler(async(req, res)=>{
 
 
 
-exports.loginController = (req, res)=>{
-    res.send("login done ");
-}
+exports.loginController = asyncHandler(async(req, res)=>{
+    const { email, password} = req.body;
+
+    const finduser = await userModel.findOne({email}).select("+password");
+     
+
+    if(!finduser){
+        apiResponse(res, 401, "Invalid Credentials" );
+    }else{
+        const passwordCheck = await bcrypt.compare(password, finduser.password);
+        //bcrypt.compare(password, finduser.password, function(err, result){
+            if(passwordCheck){
+                const user = {
+                    _id: finduser._id,
+                    email: finduser.email,
+                    name: finduser.name,
+                    verified: finduser.verified,
+                    role: finduser.role,
+
+                }
+            apiResponse(res, 200, "login successfully", user)
+            //err.message || "bcrypt have an error"
+        }else{
+            apiResponse(res, 401, "Invalid credentials");
+        }
+    }
+});
+
+exports.otpVerifyController = asyncHandler(async(req, res)=>{
+    const {email, otp} = req.body;
+    const user = await userModel.findOne({email});
+    if(!user){
+        apiResponse(res, 404, "user not found");
+    }
+    //res.send("test");
+})
 
 //module.exports = registrationController;

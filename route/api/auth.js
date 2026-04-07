@@ -1,5 +1,5 @@
 const express = require("express");
-const { registrationController, loginController } = require("../../controller/auth.controller");
+const { registrationController, loginController, otpVerifyController } = require("../../controller/auth.controller");
 
 const router = express.Router();
    
@@ -7,6 +7,6 @@ const router = express.Router();
 router.post("/registration",registrationController);
 
 router.post("/login", loginController);
-
+router.post("/otp-verify", otpVerifyController)
 
 module.exports = router;

@@ -31,6 +31,9 @@ const userSchema = new Schema({
         type: String,
 
     },
+    otpexpire:{
+        type: Date,
+    },
     verified:{
         type: Boolean,
         default:false,
