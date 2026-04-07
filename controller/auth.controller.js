@@ -70,8 +70,17 @@ exports.otpVerifyController = asyncHandler(async(req, res)=>{
     const user = await userModel.findOne({email});
     if(!user){
         apiResponse(res, 404, "user not found");
+    }else{
+        res.send(new Date());
+        if(user.otpexpire < new Date()){
+            //res.send("time expire");
+            apiResponse(res, 400, "your OTP Time expire")
+        }else{
+            res.send("otp verify");
+        }
     }
     //res.send("test");
+    // 15 min
 })
 
 //module.exports = registrationController;
