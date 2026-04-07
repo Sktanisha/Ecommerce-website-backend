@@ -1,6 +1,6 @@
 
 const nodemailer = require("nodemailer");
-exports.sendEmail = async (email) => {
+exports.sendEmail = async (email,otp) => {
     const transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -22,7 +22,7 @@ exports.sendEmail = async (email) => {
         <p style="font-size:15px;line-height:1.6;color:#4b5563;margin:12px 0">Hello,<p style="font-size:15px;line-height:1.6;
         color:#4b5563;margin:12px 0">Use the OTP below to complete your verification process. This code is valid for the next 
         <strong>10 minutes</strong>.<div style="display:inline-block;margin:25px 0;padding:16px 32px;font-size:30px;font-weight:700;
-        letter-spacing:8px;color:#111827;background-color:#f3f4f6;border:2px dashed #d1d5db;border-radius:8px">                 {{OTP_CODE}}</div>
+        letter-spacing:8px;color:#111827;background-color:#f3f4f6;border:2px dashed #d1d5db;border-radius:8px">  ${otp}</div>
         <p style="font-size:14px;color:#6b7280;margin:12px 0">Do not share this code with anyone for security reasons.<p style="font-size:
         14px;color:#6b7280;margin:12px 0">If you did not request this code, please ignore this email.<tr><td align="center"style="padding:
         20px;font-size:12px;color:#9ca3af;background-color:#f9fafb">© 2026 Your Company. All rights reserved.</table></table>`,

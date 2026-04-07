@@ -28,10 +28,10 @@ const userSchema = new Schema({
 
     },
     otp:{
-        type: Number,
+        type: String,
 
     },
-    verify:{
+    verified:{
         type: Boolean,
         default:false,
     },
@@ -47,6 +47,11 @@ const userSchema = new Schema({
         trim: true,
     },
 
-});
+},
+{
+    versionKey: false,
+    timestamps: true,
+},
+);
 
 module.exports = mongoose.model("User", userSchema);
