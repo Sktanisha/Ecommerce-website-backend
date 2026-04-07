@@ -4,6 +4,7 @@ const { apiResponse } = require("../utils/apiResponse");
 const { asyncHandler } = require("../utils/asyncHandler");
 const bcrypt = require('bcrypt');
 const otpGenerator = require('otp-generator')
+const jwt = require('jsonwebtoken');
 
 exports.registrationController = asyncHandler(async(req, res)=>{
     //res.send(req.body);
@@ -53,8 +54,10 @@ exports.loginController = asyncHandler(async(req, res)=>{
                     verified: finduser.verified,
                     role: finduser.role,
 
-                }
-            apiResponse(res, 200, "login successfully", user)
+                };
+                const token = jwt.sign(user, process.env.PRIVATE_KEY);
+
+            apiResponse(res, 200, "login successfully", {...user, token})
             //err.message || "bcrypt have an error"
         }else{
             apiResponse(res, 401, "Invalid credentials");
