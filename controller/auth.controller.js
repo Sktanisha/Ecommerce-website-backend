@@ -1,22 +1,17 @@
+const {otpGeneratorFn} = require("../helpers/otpGenerate");
 const { sendEmail } = require("../helpers/sendEmail");
 const userModel = require("../model/user.model");
 const { apiResponse } = require("../utils/apiResponse");
 const { asyncHandler } = require("../utils/asyncHandler");
 const bcrypt = require('bcrypt');
-const otpGenerator = require('otp-generator')
 const jwt = require('jsonwebtoken');
+
 
 exports.registrationController = asyncHandler(async(req, res)=>{
     //res.send(req.body);
    // let{name, email, password, phone} = req.body
     const {name, email, password, phone} = req.body;
-    const otp = otpGenerator.generate(6, { 
-        digits: true,
-        upperCaseAlphabets: false, 
-        specialChars: false 
-    });
-    
-    
+    let otp = otpGeneratorFn();
     // hash password
     const hashpassword =await bcrypt.hash(password, 12);
 
@@ -68,7 +63,11 @@ exports.loginController = asyncHandler(async(req, res)=>{
 exports.otpVerifyController = asyncHandler(async(req, res)=>{
     const {email, otp} = req.body;
     const user = await userModel.findOne({email});
-    if(!user){
+    res.send(user);
+    if(user.verified){
+        return apiResponse(res, 200, "You have already verified") 
+    }else{
+        if(!user){
         apiResponse(res, 404, "user not found");
     }else{
         res.send(new Date());
@@ -76,11 +75,31 @@ exports.otpVerifyController = asyncHandler(async(req, res)=>{
             //res.send("time expire");
             apiResponse(res, 400, "your OTP Time expire")
         }else{
-            res.send("otp verify");
+            if(user.otp == otp){
+                ((user.verified = true),(user.otp = null),(user.otpexpire = null ));
+                await user.save();
+                piResponse(res, 200, "You are now verified");
+            }else{
+                apiResponse(res, 400, "OTP Not Match");
+            }
         }
     }
+    }
+
+    
     //res.send("test");
-    // 15 min
-})
+    
+}); 
+
+exports.resentOtpController = asyncHandler(async(req, res)=>{
+    const {email} = req.body;
+    let otp = otpGeneratorFn();
+    sendEmail(email, otp);
+    const user = await userModel.findOne({email});
+    user.otp = otp;
+    user.otpexpire = Date.now() + 5 * 60 * 1000,
+    await user.save();
+    apiResponse(res, 200, "OTP has sent to your email address, Please check your email");
+});
 
 //module.exports = registrationController;
