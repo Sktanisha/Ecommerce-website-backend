@@ -24,7 +24,7 @@ exports.registrationController = asyncHandler(async(req, res)=>{
     otpexpire: Date.now() + 5 * 60 * 1000,
     });
     await user.save();
-    sendEmail(email,otp);
+    sendEmail(email,otp, verify);
     apiResponse(res, 201, "user created successfully!", user);
 });
 
@@ -94,12 +94,19 @@ exports.otpVerifyController = asyncHandler(async(req, res)=>{
 exports.resentOtpController = asyncHandler(async(req, res)=>{
     const {email} = req.body;
     let otp = otpGeneratorFn();
-    sendEmail(email, otp);
+    sendEmail(email, otp, verify);
     const user = await userModel.findOne({email});
     user.otp = otp;
     user.otpexpire = Date.now() + 5 * 60 * 1000,
     await user.save();
     apiResponse(res, 200, "OTP has sent to your email address, Please check your email");
+});
+
+exports.forgetPasswordController = asyncHandler(async(req, res)=>{
+    const {email} = req.body;
+    let otp = otpGeneratorFn();
+    sendEmail(email, null,"forget" );
+    apiResponse(res, 200, "forget password otp send successfully")
 });
 
 //module.exports = registrationController;

@@ -1,5 +1,5 @@
 const otpGenerator = require('otp-generator')
-exports.otpGeneratorFn= ()=>{
+exports.otpGeneratorFn = ()=>{
     return otpGenerator.generate(6, { 
         digits: true,
         upperCaseAlphabets: false, 
@@ -7,4 +7,3 @@ exports.otpGeneratorFn= ()=>{
     });
 }
 
-module.exports = otp;
