@@ -104,7 +104,7 @@ exports.resentOtpController = asyncHandler(async(req, res)=>{
 exports.forgetPasswordController = asyncHandler(async(req, res)=>{
     const {email} = req.body;
     let otp = otpGeneratorFn();
-    sendEmail(email, null,"forget" );
+    sendEmail(email, otp,"forget" );
 
     const user = await userModel.findOne({email})
     user.forgetPasswordotp = otp;
