@@ -34,6 +34,9 @@ const userSchema = new Schema({
     otpexpire:{
         type: Date,
     },
+    forgetPasswordotp:{
+        type: String,
+    },
     verified:{
         type: Boolean,
         default:false,

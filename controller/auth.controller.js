@@ -24,7 +24,7 @@ exports.registrationController = asyncHandler(async(req, res)=>{
     otpexpire: Date.now() + 5 * 60 * 1000,
     });
     await user.save();
-    sendEmail(email,otp, verify);
+    sendEmail(email,otp, "verify");
     apiResponse(res, 201, "user created successfully!", user);
 });
 
@@ -63,14 +63,13 @@ exports.loginController = asyncHandler(async(req, res)=>{
 exports.otpVerifyController = asyncHandler(async(req, res)=>{
     const {email, otp} = req.body;
     const user = await userModel.findOne({email});
-    res.send(user);
     if(user.verified){
         return apiResponse(res, 200, "You have already verified") 
     }else{
         if(!user){
         apiResponse(res, 404, "user not found");
     }else{
-        res.send(new Date());
+        //res.send(new Date());
         if(user.otpexpire < new Date()){
             //res.send("time expire");
             apiResponse(res, 400, "your OTP Time expire")
@@ -78,7 +77,7 @@ exports.otpVerifyController = asyncHandler(async(req, res)=>{
             if(user.otp == otp){
                 ((user.verified = true),(user.otp = null),(user.otpexpire = null ));
                 await user.save();
-                piResponse(res, 200, "You are now verified");
+                apiResponse(res, 200, "You are now verified");
             }else{
                 apiResponse(res, 400, "OTP Not Match");
             }
@@ -94,7 +93,7 @@ exports.otpVerifyController = asyncHandler(async(req, res)=>{
 exports.resentOtpController = asyncHandler(async(req, res)=>{
     const {email} = req.body;
     let otp = otpGeneratorFn();
-    sendEmail(email, otp, verify);
+    sendEmail(email, otp, "verify");
     const user = await userModel.findOne({email});
     user.otp = otp;
     user.otpexpire = Date.now() + 5 * 60 * 1000,
@@ -106,7 +105,29 @@ exports.forgetPasswordController = asyncHandler(async(req, res)=>{
     const {email} = req.body;
     let otp = otpGeneratorFn();
     sendEmail(email, null,"forget" );
+
+    const user = await userModel.findOne({email})
+    user.forgetPasswordotp = otp;
+    await user.save();
     apiResponse(res, 200, "forget password otp send successfully")
 });
 
+exports.resetPasswordController = asyncHandler(async(req, res)=>{
+    const{email, otp, newpassword} = req.body;
+    const user = await userModel.findOne({email});
+    if(!user){
+        apiResponse(res,404,  "user not found")
+    }else{
+        if(otp == user.forgetPasswordotp){
+            let hashpassword = await bcrypt.hash(newpassword, 12);
+            user.password = hashpassword;
+            await user.save();
+
+            apiResponse(res, 200,"password reset successfully");
+        }else{
+            apiResponse(res, 401, "invalid otp please try again ");
+        }
+    }
+});
+//10min
 //module.exports = registrationController;
