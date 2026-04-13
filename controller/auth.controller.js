@@ -35,7 +35,6 @@ exports.loginController = asyncHandler(async(req, res)=>{
 
     const finduser = await userModel.findOne({email}).select("+password");
      
-
     if(!finduser){
         apiResponse(res, 401, "Invalid Credentials" );
     }else{
@@ -48,10 +47,8 @@ exports.loginController = asyncHandler(async(req, res)=>{
                     name: finduser.name,
                     verified: finduser.verified,
                     role: finduser.role,
-
                 };
                 const token = jwt.sign(user, process.env.PRIVATE_KEY);
-
             apiResponse(res, 200, "login successfully", {...user, token})
             //err.message || "bcrypt have an error"
         }else{
@@ -129,5 +126,10 @@ exports.resetPasswordController = asyncHandler(async(req, res)=>{
         }
     }
 });
-//10min
+
+exports.allUsersConroller = asyncHandler(async(req, res)=>{
+    const users = await userModel.find({}).select("-otp -otpexpire -forgetPasswordotp");
+    apiResponse(res, 200, "users fetch successfully", users);
+});
+
 //module.exports = registrationController;
