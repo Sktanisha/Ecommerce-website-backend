@@ -9,7 +9,12 @@ exports.authorize = (req, res, next)=>{
             if(err){
                 apiResponse(res, 500, err.message);
             }else{
-                next();
+                //if (decoded.role == "admin"){
+                    next();
+                //}else{
+                 //   apiResponse(res, 401, "access denied");
+                //}
+                
             }
         });
     }else{

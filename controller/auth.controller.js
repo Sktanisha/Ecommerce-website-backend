@@ -48,8 +48,10 @@ exports.loginController = asyncHandler(async(req, res)=>{
                     verified: finduser.verified,
                     role: finduser.role,
                 };
-                const token = jwt.sign(user, process.env.PRIVATE_KEY);
-            apiResponse(res, 200, "login successfully", {...user, token})
+                const accesstoken = jwt.sign(user, process.env.PRIVATE_KEY,{
+                    expiresIn: "1h",
+                });
+            apiResponse(res, 200, "login successfully", {...user, accesstoken})
             //err.message || "bcrypt have an error"
         }else{
             apiResponse(res, 401, "Invalid credentials");
