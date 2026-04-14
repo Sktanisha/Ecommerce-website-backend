@@ -51,6 +51,7 @@ exports.loginController = asyncHandler(async(req, res)=>{
                 const accesstoken = jwt.sign(user, process.env.PRIVATE_KEY,{
                     expiresIn: "1h",
                 });
+                res.cookie("accesstoken",accesstoken,{maxAge: 3600000});
                 /* statefull 
                 req.session.secure = true;
                 req.session.cookie.maxAge = 60 * 60 * 1000;
