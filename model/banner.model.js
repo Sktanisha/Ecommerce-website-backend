@@ -1,0 +1,16 @@
+const { Schema } = require("mongoose");
+
+const bannerSchema = new Schema({
+    image:{
+        type:String,
+        required: [true, "banner is required"],
+    },
+    isActive:{
+        type:Boolean,
+        default: true,
+    },
+},{
+    timestamps:true,
+    versionKey: false,
+},
+);
