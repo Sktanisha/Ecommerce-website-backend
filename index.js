@@ -3,9 +3,11 @@ const express = require("express");
 const { dbConfig } = require("./config/db");
 const { globalErrorHandler } = require("./utils/globalErrorHandler");
 //var session = require('express-session');
+const cookieParser = require("cookie-parser");
 const app = express();
 const port = process.env.PORT || 5000;
 app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({extended: true}));
 
 /* stateful
