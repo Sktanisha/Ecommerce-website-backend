@@ -23,3 +23,13 @@ exports.authorize = (req, res, next)=>{
     //var decoded = jwt.verify(token, process.env.PRIVATE_KEY);
     //res.send(decoded);
 }
+
+
+/* statefull
+exports.authorize = (req, res, next) => {
+    if (req.session.user) {
+        next();
+    }else{
+        apiResponse(res, 401, "access denied");
+    }
+}; */

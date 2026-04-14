@@ -51,7 +51,11 @@ exports.loginController = asyncHandler(async(req, res)=>{
                 const accesstoken = jwt.sign(user, process.env.PRIVATE_KEY,{
                     expiresIn: "1h",
                 });
-            apiResponse(res, 200, "login successfully", {...user, accesstoken})
+                /* statefull 
+                req.session.secure = true;
+                req.session.cookie.maxAge = 60 * 60 * 1000;
+                req.session.user = user; */
+            apiResponse(res, 200, "login successfully", {...user});
             //err.message || "bcrypt have an error"
         }else{
             apiResponse(res, 401, "Invalid credentials");
@@ -130,7 +134,10 @@ exports.resetPasswordController = asyncHandler(async(req, res)=>{
 });
 
 exports.allUsersConroller = asyncHandler(async(req, res)=>{
-    const users = await userModel.find({}).select("-otp -otpexpire -forgetPasswordotp");
+
+    const users = await userModel
+    .find({})
+    .select("-otp -otpexpire -forgetPasswordotp");
     apiResponse(res, 200, "users fetch successfully", users);
 });
 
