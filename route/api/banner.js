@@ -2,7 +2,8 @@ const express = require("express");
 const { addBannerController, 
         deleteBannerController, 
         getAllBannersController, 
-        updateBannersController 
+        updateBannersController, 
+        singleBannerController
     } = require("../../controller/banner.controller");
 const router = express.Router();
 const upload = require("../../utils/upload");
@@ -35,4 +36,9 @@ router.patch(
     upload.single("banner-image"), 
     updateBannersController
 );
+
+router.get(
+            "/single-banner/:id",
+            singleBannerController
+        )
 module.exports = router;
