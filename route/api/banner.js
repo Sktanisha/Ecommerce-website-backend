@@ -1,5 +1,9 @@
 const express = require("express");
-const { addBannerController, deleteBannerController } = require("../../controller/banner.controller");
+const { addBannerController, 
+        deleteBannerController, 
+        getAllBannersController, 
+        updateBannersController 
+    } = require("../../controller/banner.controller");
 const router = express.Router();
 const upload = require("../../utils/upload");
 const { authorize } = require("../../middleware/authorize");
@@ -22,4 +26,13 @@ router.delete(
             deleteBannerController
  );
 
+router.get("/banners", getAllBannersController);
+
+router.patch(
+    "/update-banner/:id", 
+    authorize, 
+    authorizeRole("admin"),
+    upload.single("banner-image"), 
+    updateBannersController
+);
 module.exports = router;

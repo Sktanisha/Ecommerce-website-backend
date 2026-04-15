@@ -23,7 +23,6 @@ exports.deleteBannerController = asyncHandler(async(req, res)=>{
     if(findbanner){
         const folderpath = path.join(__dirname, "../uploads");
         let filepath = findbanner.image.split("/").pop();
-
         fs.unlink(`${folderpath}/${filepath}`,(err)=>{
             if(err){
                 apiResponse(res, 500, err.message || "something went wrong");
@@ -36,4 +35,34 @@ exports.deleteBannerController = asyncHandler(async(req, res)=>{
         apiResponse(res, 400, "banner not found");
     }
 
+});
+
+exports.getAllBannersController = asyncHandler(async(req, res)=>{
+    const banners = await bannerModel.find({});
+
+    apiResponse(res,200, "banner added successfully" );
+});
+
+exports.updateBannersController = asyncHandler(async(req, res)=>{
+    const {id} = req.params;
+    const{isActive}= req.body;
+    const findbanner = await bannerModel.findOne({_id: id});
+    if(findbanner){
+        const folderpath = path.join(__dirname, "../uploads");
+        let filepath = findbanner.image.split("/").pop();
+        fs.unlink(`${folderpath}/${filepath}`,async(err)=>{
+            if(err){
+                apiResponse(res, 500, err.message || "something went wrong");
+            }else{
+                findbanner.image = `${process.env.SERVER_URL}/${req.file.filename}`;
+                if(isActive){
+                    findbanner.isActive = isActive;
+                }
+                await findbanner.save();
+                apiResponse(res,200, "banner updated successfully", findbanner );
+            }
+        });
+    }else{
+        apiResponse(res, 400, "banner not found");
+    }
 });
