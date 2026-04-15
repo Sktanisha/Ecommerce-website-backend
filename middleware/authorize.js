@@ -12,6 +12,7 @@ exports.authorize = (req, res, next)=>{
             if(err){
                 apiResponse(res, 500, err.message);
             }else{
+                req.user = decoded;
                 //if (decoded.role == "admin"){
                     next();
                 //}else{

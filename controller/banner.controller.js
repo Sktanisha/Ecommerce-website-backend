@@ -4,6 +4,8 @@ const { asyncHandler } = require("../utils/asyncHandler");
 
 
 exports.addBannerController = asyncHandler(async(req, res) =>{
+    res.send("working");
+    return 
     const { filename } = req.file;
     const { isActive } = req.body;
     //res.send("banner created");
