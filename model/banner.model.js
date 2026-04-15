@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema, default: mongoose } = require("mongoose");
 
 const bannerSchema = new Schema({
     image:{
@@ -14,3 +14,5 @@ const bannerSchema = new Schema({
     versionKey: false,
 },
 );
+
+module.exports = mongoose.model("Banner", bannerSchema) ;
