@@ -7,9 +7,10 @@ const { authorizeRole } = require("../../middleware/authorizeRole");
 //const multer  = require('multer')
 //http://localhost:8080/api/v1/banner
 //const upload = multer({ dest: 'uploads/' })
-router.post("/add-banner", 
+router.post(
+            "/add-banner", 
             authorize, 
-            authorizeRole,
+            authorizeRole("admin,user"),
             upload.single("banner-image"), 
             addBannerController);
 
