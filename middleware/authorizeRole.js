@@ -1,10 +1,8 @@
 const { apiResponse } = require("../utils/apiResponse");
 
-exports.authorizeRole = (role) => {
+exports.authorizeRole = (...role) => {
     return (req, res, next) => {
-        let accessrole = role.split(",");
-        let access = accessrole.includes(req.user.role);
-        
+        let access = role.includes(req.user.role);
         if (access) {
             next();
         } else {
