@@ -1,4 +1,4 @@
-const { Schema } = require("mongoose");
+const { Schema, default: mongoose } = require("mongoose");
 
 const categorySchema = new Schema({
     image: {
@@ -17,4 +17,4 @@ const categorySchema = new Schema({
 },
 )
 
-module.exports = mongoose.model("Category", categorySchema);
+module.exports = mongoose.model("Category", categorySchema) ;

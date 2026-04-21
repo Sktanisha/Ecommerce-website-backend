@@ -40,7 +40,7 @@ exports.deleteBannerController = asyncHandler(async (req, res) => {
 exports.getAllBannersController = asyncHandler(async (req, res) => {
     const banners = await bannerModel.find({}).select("image isActive");
 
-    apiResponse(res, 200, "banner added successfully");
+    apiResponse(res, 200, "All banners",banners);
 });
 
 exports.updateBannersController = asyncHandler(async (req, res) => {

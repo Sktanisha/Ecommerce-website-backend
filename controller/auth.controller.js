@@ -28,8 +28,6 @@ exports.registrationController = asyncHandler(async(req, res)=>{
     apiResponse(res, 201, "user created successfully!", user);
 });
 
-
-
 exports.loginController = asyncHandler(async(req, res)=>{
     const { email, password} = req.body;
 
