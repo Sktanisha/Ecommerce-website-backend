@@ -10,6 +10,11 @@ const categorySchema = new Schema({
         required: [true, "name is required"],
         unique: [true, "name must be unique"],
     },
+    slug:{
+        type: String,
+        required: [true, "slug is required"],
+        unique: [true, "slug must be unique"],
+    }
 
 },{
     timestamps:true,
