@@ -1,6 +1,8 @@
 const express = require("express");
 const { addCategoryController,
     deleteCategoryController,
+    allCategoryController,
+    updateCategoryController,
     } = require("../../controller/category.controller");
 const upload = require("../../utils/upload");
 const { authorize } = require("../../middleware/authorize");
@@ -19,5 +21,15 @@ router.delete("/delete-category/:slug",
             authorizeRole("admin"),
             deleteCategoryController
         );
+
+router.get("/all-category",allCategoryController);
+
+router.patch(
+    "/update-category/:slug", 
+    authorize, 
+    authorizeRole("admin"),
+    upload.single("category-image"), 
+    updateCategoryController
+);
 
 module.exports = router;
