@@ -1,6 +1,6 @@
 const { Schema, default: mongoose } = require("mongoose");
 
-const categorySchema = new Schema({
+const subcategorySchema = new Schema({
     image: {
         type: String,
         required: [true, "image is required"],
@@ -18,12 +18,7 @@ const categorySchema = new Schema({
     isActive:{
         type: Boolean,
         default:true,
-    }
+    },
+});
 
-},{
-    timestamps:true,
-    versionKey: false,
-},
-)
-
-module.exports = mongoose.model("Category", categorySchema) ;
+module.exports = mongoose.model("Subcategory", subcategorySchema);
