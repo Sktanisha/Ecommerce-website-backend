@@ -40,3 +40,15 @@ exports.addSubCategoryController = asyncHandler(async (req, res) => {
     }
 
 });
+
+exports.deleteSubCategoryController = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const deletesubcategory = await subcategoryModel.findOneAndDelete({_id:id});
+
+    let updatecategory = await categoryModel.findOneAndUpdate(
+        {subcategory:id},
+        {$pull:{subcategory: id}},
+        {new: true},
+    );
+    apiResponse(res, 200, "subcategory deleted",deletesubcategory);
+});
