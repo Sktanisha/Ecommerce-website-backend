@@ -64,15 +64,12 @@ exports.updateCategoryController = asyncHandler(async (req, res) => {
     if (req.file && name) {
         const folderpath = await path.join(__dirname, "../uploads");
         const filepath = findcategory.image.split("/").pop();
-
         fs.unlink(`${folderpath}/${filepath}`, async (err) => {
             if (err) {
                 apiResponse(res, 500, err.message || "category file delete went wrong")
             }
         });
-
         findcategory.image = `${process.env.SERVER_URL}/${req.file.filename}`
-
         const slugupdate = slugify(name, {
             replacement: '-',
             remove: undefined,

@@ -133,11 +133,9 @@ exports.resetPasswordController = asyncHandler(async(req, res)=>{
 });
 
 exports.allUsersConroller = asyncHandler(async(req, res)=>{
-
     const users = await userModel
     .find({})
     .select("-otp -otpexpire -forgetPasswordotp");
     apiResponse(res, 200, "users fetch successfully", users);
 });
 
-//module.exports = registrationController;
